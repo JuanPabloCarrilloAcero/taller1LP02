@@ -46,8 +46,8 @@
         end--;
     }
 
-    if (strcmp(line, "import library") == 0) {
-        printf("#define LIB_FUNCTION(x)  ((x)*(x))\n");
+    if (strcmp(line, "import iseven") == 0) {
+        printf("ISEVEN:\nLOADI R1 1\nAND R0 R1\nJZ EVEN\nLOADI R2 0\nJMP END\n\nEVEN:\nLOADI R2 1\n\nEND:\nHALT\n\n");
     } else if (strlen(line) > 0) {
         printf("%s\n", line);
     }
