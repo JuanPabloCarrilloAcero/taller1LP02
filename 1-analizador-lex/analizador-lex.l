@@ -80,9 +80,10 @@
 #define OPEN_BRACE 104 // {
 #define CLOSE_BRACE 105 // }
 #define SEMI_COLON 106 // ;
-#define NEGATION_SYMBOL 107 // !
-#define OR_SYMBOL 108 // ||
-#define AND_SYMBOL 109 // &&
+#define COMMA 107 
+#define NEGATION_SYMBOL 108 // !
+#define OR_SYMBOL 109 // ||
+#define AND_SYMBOL 110 // &&
 
 
 
@@ -190,6 +191,7 @@ linecomment  "//".*
 "&&"        { yylval = AND_SYMBOL; printf("SYMBOL:%d ", yylval); return(SYMBOL); }
 "||"        { yylval = OR_SYMBOL; printf("SYMBOL:%d ", yylval); return(SYMBOL); }
 "!"         { yylval = NEGATION_SYMBOL; printf("SYMBOL:%d ", yylval); return(SYMBOL); }
+","         { yylval = COMMA; printf("SYMBOL:%d ", yylval); return(SYMBOL); }
 
 "int"       { yylval = INT; printf("DATATYPE:%d ", yylval); return(DATATYPE); }
 "float"     { yylval = FLOAT; printf("DATATYPE:%d ", yylval); return(DATATYPE); }
@@ -201,11 +203,12 @@ linecomment  "//".*
 "none"      { yylval = NONE; printf("DATATYPE:%d ", yylval); return(DATATYPE); }
 "function"  { yylval = FUNCTION; printf("DATATYPE:%d ", yylval); return(DATATYPE); }
 
-{id}        { yylval = installID(); printf("%d ", yylval); return(ID); }
 {number}    { yylval = installNum(); printf("%d ", yylval); return(NUMBER); }
+{id}        { yylval = installID(); printf("%d ", yylval); return(ID); }
 {string}    { yylval = installString(); printf("%d ", yylval); return(STRING); }
 {linecomment}   /* ignora los comentarios */
 
+.      { printf("Error: caracter no reconocido '%c'\n", yytext[0]); }
 %%
 
 int installID() {
