@@ -22,15 +22,6 @@ extern FILE * yyin;
 extern FILE * yyout;
 
 
-
-char *names[] = {"NOP", "ADD", "SUB", "MUL", "DIV", "INC", "DEC", "AND", "OR",
-  "XOR", "NOT", "SHL", "SHR", "JMP", "JZ", "CMP", "JG", "JL", "CALL", "RET", 
-  "LOAD", "STORE", "MOV", "PUSH", "POP", "LOADI", "IN", "OUT", NULL, NULL, NULL,
-  "HALT"
-};
-
-
-
 void getBin(int num, char *str, int binlen)
 { 
   *(str + binlen) = '\0';
@@ -44,8 +35,8 @@ void getBin(int num, char *str, int binlen)
 
 int main(void)
 {
-  int ntoken, vtoken;
-  int reg_flag = 0, label_num = -1,label_count = 0, newline_count = 1;
+  int ntoken;
+  int reg_flag = 0, label_flag = 0,label_count = 0, newline_count = 1;
   int index_labels[NUM_LABELS];
   char labels[NUM_LABELS][LABEL_LEN];
   char opcode[OPCODE_LEN] = {0};
@@ -68,94 +59,97 @@ int main(void)
   while(ntoken) {
     switch (ntoken) {
       case NOP:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case ADD:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case SUB:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case MUL:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case DIV:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case INC:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case DEC:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case AND:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case OR:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case XOR:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case NOT:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case SHL:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case SHR:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case JMP:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case JZ:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
+        break;
+      case JNZ:
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case CMP:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case JG:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case JL:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case CALL:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case RET:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case LOAD:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case STORE:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case MOV:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case PUSH:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case POP:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case LOADI:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case IN:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case OUT:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case HALT:
-        getBin(ntoken, opcode, OPCODE_LEN-1);
-        fprintf(output, "%s00000000000000000000000000\n", opcode);
+        getBin(ntoken-1, opcode, OPCODE_LEN-1);
         break;
       case LABELI:
+        label_flag = 1;
         yytext[strlen(yytext)-1] = '\0';
         strncpy(labels[label_count], yytext, LABEL_LEN);
         index_labels[label_count] = newline_count;
@@ -163,11 +157,7 @@ int main(void)
         label_count++;
         break;
       case LABELO:
-        //TODO
-        //printf("%s\n", yytext);
-
         strcpy(address, yytext);
-
         break;
       case REG:
         char *temp_reg = yytext;
@@ -186,7 +176,7 @@ int main(void)
         getBin(value, address, ADDRESS_LEN-1);
         break;
       case NEWLINE:
-        if (newline_count > 1 ){
+        if (newline_count >  0 && label_flag == 0){
           for (int i = 0; i < OPCODE_LEN-1; i++){
             if (opcode[i] == '\0')
               fprintf(output, "0");
@@ -224,12 +214,43 @@ int main(void)
         memset(reg2,0,5);
         memset(address,0,16);
         reg_flag = 0;
-        label_num = -1;
         newline_count++;
         break;
     }
+    label_flag = 0;
     ntoken = yylex();
   }
+for (int i = 0; i < OPCODE_LEN-1; i++){
+  if (opcode[i] == '\0')
+    fprintf(output, "0");
+  else
+    fprintf(output, "%c", opcode[i]);
+}
+for (int i = 0; i < REG_LEN-1; i++){
+  if (reg1[i] == '\0')
+    fprintf(output, "0");
+  else
+    fprintf(output,"%c", reg1[i]);
+}
+for (int i = 0; i < REG_LEN-1; i++){
+  if (reg2[i] == '\0')
+    fprintf(output, "0");
+  else 
+    fprintf(output, "%c", reg2[i]);
+}
+//printf("address: %s\n", address);
+int flag = 0;
+for (int i = 0; i < ADDRESS_LEN-1; i++){
+  if (address[i]=='\0' && flag == 0)
+    fprintf(output, "0");
+  else if (isalpha(address[i]) != 0 && flag == 0){
+    fprintf(output, "\n%c", address[i]);
+    flag = 1; 
+  }
+  else 
+    fprintf(output, "%c", address[i]);
+}
+fprintf(output, "\n");
   fclose(input);
   fclose(output);
 
@@ -239,11 +260,9 @@ int main(void)
   
   char line[33];
   if (output != NULL) {
-    // Read each line from the file and store it in the
-    // 'line' buffer.
     while (fgets(line, sizeof(line), input)) {
-    // Print each line to the standard output.
-      if (isalpha(line[0]) == 0 ) {
+      if (isalpha(line[0]) == 0) {
+        // Print exact same line to output file
         fprintf(output, "%s", line);
       }
       else{
@@ -251,7 +270,7 @@ int main(void)
         char buffer[LABEL_LEN];
         for (i = 0; i <= label_count; i++){
           if (strcmp(labels[i], line) == 0){
-            fprintf(output, "1010(%d)\n", index_labels[i]);
+fprintf(output, "1010(%d)\n", index_labels[i]);
           }
         }
       }

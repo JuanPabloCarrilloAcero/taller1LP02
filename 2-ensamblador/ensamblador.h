@@ -1,40 +1,41 @@
 //instructions
-#define NOP 0
-#define ADD 1
-#define SUB 2
-#define MUL 3
-#define DIV 4
-#define INC 5
-#define DEC 6
-#define AND 7
-#define OR 8
-#define XOR 9
-#define NOT 10
-#define SHL 11
-#define SHR 12
-#define JMP 13
-#define JZ 14
-#define CMP 16 
-#define JG 17
-#define JL 18
-#define CALL 19
-#define RET 20
-#define LOAD 21
-#define STORE 22
-#define MOV 23
-#define PUSH 24
-#define POP 25
-#define LOADI 26
-#define IN 27
-#define OUT 28
-#define HALT 31
+#define NOP 1
+#define ADD 2
+#define SUB 3
+#define MUL 4
+#define DIV 5
+#define INC 6
+#define DEC 7
+#define AND 8
+#define OR 9
+#define XOR 10
+#define NOT 11
+#define SHL 12
+#define SHR 13
+#define JMP 14
+#define JZ 15
+#define JNZ 16
+#define CMP 17 
+#define JG 18
+#define JL 19
+#define CALL 20
+#define RET 21
+#define LOAD 22
+#define STORE 23
+#define MOV 24
+#define PUSH 25
+#define POP 26
+#define LOADI 27
+#define IN 28
+#define OUT 29
+#define HALT 32
 
 //regs, numbers and misc
-#define LABELI 32
-#define LABELO 33
-#define REG 34
-#define VALUE 35
-#define NEWLINE 36
+#define LABELI 33
+#define LABELO 34
+#define REG 35
+#define VALUE 36
+#define NEWLINE 37
 
 
 
