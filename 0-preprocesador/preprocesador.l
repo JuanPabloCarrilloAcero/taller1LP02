@@ -48,6 +48,18 @@
 
     if (strcmp(line, "import iseven") == 0) {
         printf("ISEVEN:\nLOADI R1 1\nAND R0 R1\nJZ EVEN\nLOADI R2 0\nJMP END\n\nEVEN:\nLOADI R2 1\n\nEND:\nHALT\n\n");
+    } else if (strcmp(line, "import isodd") == 0) {
+          // Example implementation for "isodd"
+          printf("ISODD:\n");
+          printf("LOADI R1 1\n");
+          printf("AND R0 R1\n");
+          printf("JNZ ODD\n");
+          printf("LOADI R2 0\n");
+          printf("JMP END2\n\n");
+          printf("ODD:\n");
+          printf("LOADI R2 1\n\n");
+          printf("END2:\n");
+          printf("HALT\n\n");
     } else if (strlen(line) > 0) {
         printf("%s\n", line);
     }
