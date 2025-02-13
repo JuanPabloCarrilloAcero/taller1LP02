@@ -33,8 +33,7 @@ void getBin(int num, char *str, int binlen)
   //printf("oh my, %d, %p, %d\n", num, str, binlen);
 } 
 
-int main(void)
-{
+int main(void){
   int ntoken;
   int reg_flag = 0, label_flag = 0,label_count = 0, newline_count = 1;
   int index_labels[NUM_LABELS];
@@ -43,14 +42,8 @@ int main(void)
   char reg1[REG_LEN] = {0};
   char reg2[REG_LEN] = {0};
   char address[ADDRESS_LEN] = {0};
-  FILE *input = fopen("test.asm", "r");
-  FILE *output = fopen("test.txt", "w");
-  if (!input || !output) {
-    printf("I can't open the file!");
-    return -1;
-  }
-  yyin = input;
-  yyout = output;
+  FILE *temp = fopen("temp.txt", "a");
+  yyout = temp;
   //printf("opcode:%p\nreg1:%p\nreg2:%p\naddress:%p\n", opcode, reg1, reg2, address);
   //printf("---\n");
 
@@ -179,35 +172,35 @@ int main(void)
         if (newline_count >  0 && label_flag == 0){
           for (int i = 0; i < OPCODE_LEN-1; i++){
             if (opcode[i] == '\0')
-              fprintf(output, "0");
+              fprintf(temp, "0");
             else
-              fprintf(output, "%c", opcode[i]);
+              fprintf(temp, "%c", opcode[i]);
           }
           for (int i = 0; i < REG_LEN-1; i++){
             if (reg1[i] == '\0')
-              fprintf(output, "0");
+              fprintf(temp, "0");
             else
-              fprintf(output,"%c", reg1[i]);
+              fprintf(temp,"%c", reg1[i]);
           }
           for (int i = 0; i < REG_LEN-1; i++){
             if (reg2[i] == '\0')
-              fprintf(output, "0");
+              fprintf(temp, "0");
             else 
-              fprintf(output, "%c", reg2[i]);
+              fprintf(temp, "%c", reg2[i]);
           }
           //printf("address: %s\n", address);
           int flag = 0;
           for (int i = 0; i < ADDRESS_LEN-1; i++){
             if (address[i]=='\0' && flag == 0)
-              fprintf(output, "0");
+              fprintf(temp, "0");
             else if (isalpha(address[i]) != 0 && flag == 0){
-              fprintf(output, "\n%c", address[i]);
+              fprintf(temp, "\n%c", address[i]);
               flag = 1; 
             }
             else 
-              fprintf(output, "%c", address[i]);
+              fprintf(temp, "%c", address[i]);
           }
-          fprintf(output, "\n");
+          fprintf(temp, "\n");
         }
         memset(opcode,0,6);
         memset(reg1,0,5);
@@ -220,42 +213,47 @@ int main(void)
     label_flag = 0;
     ntoken = yylex();
   }
-for (int i = 0; i < OPCODE_LEN-1; i++){
-  if (opcode[i] == '\0')
-    fprintf(output, "0");
-  else
-    fprintf(output, "%c", opcode[i]);
-}
-for (int i = 0; i < REG_LEN-1; i++){
-  if (reg1[i] == '\0')
-    fprintf(output, "0");
-  else
-    fprintf(output,"%c", reg1[i]);
-}
-for (int i = 0; i < REG_LEN-1; i++){
-  if (reg2[i] == '\0')
-    fprintf(output, "0");
-  else 
-    fprintf(output, "%c", reg2[i]);
-}
+
+  for (int i = 0; i < OPCODE_LEN-1; i++){
+    if (opcode[i] == '\0')
+      fprintf(temp, "0");
+    else
+      fprintf(temp, "%c", opcode[i]);
+  }
+  for (int i = 0; i < REG_LEN-1; i++){
+    if (reg1[i] == '\0')
+      fprintf(temp, "0");
+    else
+      fprintf(temp,"%c", reg1[i]);
+  }
+  for (int i = 0; i < REG_LEN-1; i++){
+    if (reg2[i] == '\0')
+      fprintf(temp, "0");
+    else 
+      fprintf(temp, "%c", reg2[i]);
+  }
 //printf("address: %s\n", address);
-int flag = 0;
-for (int i = 0; i < ADDRESS_LEN-1; i++){
+  int flag = 0;
+  for (int i = 0; i < ADDRESS_LEN-1; i++){
   if (address[i]=='\0' && flag == 0)
-    fprintf(output, "0");
+    fprintf(temp, "0");
   else if (isalpha(address[i]) != 0 && flag == 0){
-    fprintf(output, "\n%c", address[i]);
+    fprintf(temp, "\n%c", address[i]);
     flag = 1; 
   }
   else 
-    fprintf(output, "%c", address[i]);
-}
-fprintf(output, "\n");
-  fclose(input);
-  fclose(output);
+    fprintf(temp, "%c", address[i]);
+  }
 
-  input = fopen("test.txt", "r");
-  output = fopen("test.relo", "w");
+  fprintf(temp, "\n");
+  fclose(temp);
+
+  FILE *input = fopen("temp.txt", "r");
+  FILE *output = fopen("output.relo", "w");
+
+  if (!output){
+    FILE *output = fopen("output.relo", "a");
+  }
 
   
   char line[33];
@@ -277,11 +275,14 @@ fprintf(output, "1010(%d)\n", index_labels[i]);
     }
   }
 
-
-
   fclose(input);
   fclose(output);
 
+  if (remove("temp.txt") == 0) {
+        printf("File deleted successfully.\n");
+    } else {
+        printf("Error: Unable to delete the file.\n");
+    }
 
   return 0;
 }
