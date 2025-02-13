@@ -169,7 +169,7 @@ int main(void){
         getBin(value, address, ADDRESS_LEN-1);
         break;
       case NEWLINE:
-        if (newline_count >  0 && label_flag == 0){
+        if (label_flag == 0){
           for (int i = 0; i < OPCODE_LEN-1; i++){
             if (opcode[i] == '\0')
               fprintf(temp, "0");
@@ -201,16 +201,15 @@ int main(void){
               fprintf(temp, "%c", address[i]);
           }
           fprintf(temp, "\n");
-        }
-        memset(opcode,0,6);
-        memset(reg1,0,5);
-        memset(reg2,0,5);
-        memset(address,0,16);
-        reg_flag = 0;
-        newline_count++;
+          memset(opcode,0,6);
+          memset(reg1,0,5);
+          memset(reg2,0,5);
+          memset(address,0,16);
+          reg_flag = 0;
+          newline_count++;
+        }else if(label_flag == 1) label_flag = 0;
         break;
     }
-    label_flag = 0;
     ntoken = yylex();
   }
 
@@ -249,40 +248,28 @@ int main(void){
   fclose(temp);
 
   FILE *input = fopen("temp.txt", "r");
-  FILE *output = fopen("output.relo", "w");
-
-  if (!output){
-    FILE *output = fopen("output.relo", "a");
-  }
-
   
   char line[33];
-  if (output != NULL) {
-    while (fgets(line, sizeof(line), input)) {
-      if (isalpha(line[0]) == 0) {
-        // Print exact same line to output file
-        fprintf(output, "%s", line);
-      }
-      else{
-        int i;
-        char buffer[LABEL_LEN];
-        for (i = 0; i <= label_count; i++){
-          if (strcmp(labels[i], line) == 0){
-fprintf(output, "1010(%d)\n", index_labels[i]);
-          }
+  while (fgets(line, sizeof(line), input)) {
+    if (isalpha(line[0]) == 0) {
+      // Print exact same line to terminal
+      printf("%s", line);
+    }
+    else{
+      int i;
+      char buffer[LABEL_LEN];
+      for (i = 0; i <= label_count; i++){
+        if (strcmp(labels[i], line) == 0){
+printf("1010(%d)\n", index_labels[i]);
         }
       }
     }
   }
 
   fclose(input);
-  fclose(output);
-
-  if (remove("temp.txt") == 0) {
-        printf("File deleted successfully.\n");
-    } else {
-        printf("Error: Unable to delete the file.\n");
-    }
+  if (remove("temp.txt") != 0) {
+    printf("Error: Unable to delete the file.\n");
+  }
 
   return 0;
 }

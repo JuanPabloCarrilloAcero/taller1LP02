@@ -43,7 +43,6 @@ R[0-7]                  return REG;
 {label}                 return LABELO;
 {label}:                return LABELI;
 {integer}               return VALUE;
-[\n][\n]+               ;
 [\n]                    return NEWLINE;
 [ \t]                   ;
 
