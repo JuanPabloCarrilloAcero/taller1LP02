@@ -27,7 +27,7 @@
         length--;
     }
 
-    char *commentPos = strchr(line, '#');
+    char *commentPos = strstr(line, "//");
     if (commentPos) {
         *commentPos = '\0';
     }
